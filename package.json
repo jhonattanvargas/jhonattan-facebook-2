@@ -23,7 +23,6 @@
     "passport-facebook": "^2.0.0"
   },
   "scripts": {
-    "start": "nodemon server.js"
   },
   "devDependencies": {
     "nodemon": "^1.10.2"

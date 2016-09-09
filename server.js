@@ -6,12 +6,14 @@ var http = require('http');
 
 // Create a new Express application.
 var app = express();
-
+//definición de puerto
+app.set('port', process.env.PORT || 3000);
+//app.set('port',3000);
 // Lo necesario para ocupar passport
 passport.use(new Strategy({
     clientID: '1237889892938057',
     clientSecret: '1c6b8c6b32c1cfda1c9969179e370e5f',
-    callbackURL: 'https://jhonattan-facebook-login-2.herokuapp.com:3000/login/facebook/return'
+    callbackURL: 'https://jhonattan-facebook-login-2.herokuapp.com:'+app.get('port')+'/login/facebook/return'
   },
   function(accessToken, refreshToken, profile, cb) {
 
@@ -28,9 +30,7 @@ passport.deserializeUser(function(obj, cb) {
   cb(null, obj);
 });
 
-//definición de puerto
-//app.set('port', process.env.PORT || 3000);
-app.set('port',3000);
+
 
 // Configure view engine to render EJS templates.
 app.set('views', __dirname + '/views');
