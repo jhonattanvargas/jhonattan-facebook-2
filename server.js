@@ -73,11 +73,14 @@ app.get('/facebook-error',
   });
 
 app.get('/login/facebook',
-  passport.authenticate('facebook'));
+  passport.authenticate('facebook'),function(req,res){
+    console.log('/login/facebook/ '+app.get('port'));
+  });
 
 app.get('/login/facebook/return', 
   passport.authenticate('facebook', { failureRedirect: '/facebook-error' }),
   function(req, res) {
+    console.log('/login/facebook/return/ '+app.get('port'));
     res.redirect('/');
   });
 
