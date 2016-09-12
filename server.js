@@ -2,27 +2,42 @@ var express = require('express');
 var passport = require('passport');
 var Strategy = require('passport-facebook').Strategy;
 var http = require('http');
-
+var User = require('./models/user').User;
 
 // Create a new Express application.
 var app = express();
 //definición de puerto
 app.set('port', process.env.PORT || 3000);
 //app.set('port',3000);
+
 // Lo necesario para ocupar passport
 passport.use(new Strategy({
     //clientID: '1237889892938057',
     clientID: '1759592940975382',
     //clientSecret: '1c6b8c6b32c1cfda1c9969179e370e5f',
     clientSecret: '8e5d51d7ae1de27ed55b732826526b1b',
-    //callbackURL: 'https://jhonattan-facebook-login-2.herokuapp.com:'+app.get('port')+'/login/facebook/return'
+    //callbackURL: 'http://localhost:3000/login/facebook/return'
     callbackURL: 'https://jhonattan-facebook-login-2.herokuapp.com/login/facebook/return'
   },
   function(accessToken, refreshToken, profile, cb) {
 
-    console.log(profile.id);
-    console.log()
-    return cb(null, profile);
+    User.findOne({id: profile.id}, function(err, user) {
+      if(err) throw(err);
+      if(!err && user!= null) return cb(null, user);
+
+      // Al igual que antes, si el usuario ya existe lo devuelve
+      // y si no, lo crea y salva en la base de datos
+      var user = new User({
+        id          : profile.id,
+        displayName : profile.displayName,
+        exp         : 0,
+        nivel       : 1
+      });
+      user.save(function(err) {
+        if(err) throw err;
+        cb(null, user);
+      });
+    });
   }));
 
 passport.serializeUser(function(user, cb) {
