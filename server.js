@@ -13,7 +13,8 @@ app.set('port', process.env.PORT || 3000);
 passport.use(new Strategy({
     clientID: '1237889892938057',
     clientSecret: '1c6b8c6b32c1cfda1c9969179e370e5f',
-    callbackURL: 'https://jhonattan-facebook-login-2.herokuapp.com:'+app.get('port')+'/login/facebook/return'
+    //callbackURL: 'https://jhonattan-facebook-login-2.herokuapp.com:'+app.get('port')+'/login/facebook/return'
+    callbackURL: 'https://jhonattan-facebook-login-2.herokuapp.com/login/facebook/return'
   },
   function(accessToken, refreshToken, profile, cb) {
 
